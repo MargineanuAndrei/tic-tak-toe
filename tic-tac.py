@@ -17,29 +17,15 @@ class Board():
             self.cells[cell_number] = player
 
     def is_winner(self, player):
-        if(self.cells[1] == player and self.cells[2] == player and self.cells[3] == player):
-            return True
+        for combo in [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]:
+            result = True
 
-        if(self.cells[4] == player and self.cells[5] == player and self.cells[6] == player):
-            return True
+            for cell_no in combo:
+                if self.cells[cell_no] != player:
+                    result = False
 
-        if(self.cells[7] == player and self.cells[8] == player and self.cells[9] == player):
-            return True
-
-        if(self.cells[1] == player and self.cells[4] == player and self.cells[7] == player):
-            return True
-
-        if(self.cells[2] == player and self.cells[5] == player and self.cells[8] == player):
-            return True
-
-        if(self.cells[3] == player and self.cells[6] == player and self.cells[9] == player):
-            return True
-
-        if(self.cells[1] == player and self.cells[5] == player and self.cells[9] == player):
-            return True
-
-        if(self.cells[3] == player and self.cells[5] == player and self.cells[7] == player):
-            return True
+            if result == True:
+                return True
 
         return False
 
@@ -56,6 +42,22 @@ class Board():
     def reset(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
+    def ai_move(self, player):
+
+        if player == "X":
+            enemy = "O"
+        if player == "O":
+            enemy = "X"
+
+        if(self.cells[5] == " "):
+            self.update_cell(5, player)
+            return
+
+        for i in range(1,10):
+            if self.cells[i] == " ":
+                self.update_cell(i, player)
+                break
+
 board = Board()
 
 def print_header():
@@ -66,49 +68,150 @@ def refrash_screan():
     print_header()
     board.display()
 
-while True:
-    refrash_screan()
+two_players = raw_input("Would you like to play two players? (Y/N) > ").upper()
 
-    # Player X functionality
-    x_choice = int(raw_input("\n X) Please choose 1-9. > "))
-    board.update_cell(x_choice, "X")
-    refrash_screan()
-    if board.is_winner("X"):
-        print("\n Player X wins! \n")
-        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
-        if play_again == "Y":
-            board.reset()
-            continue
-        else:
-            break
+if two_players == "Y":
+    while True:
+        refrash_screan()
 
-    if board.is_tie():
-        print("\n Game ends with tie! \n")
-        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
-        if play_again == "Y":
-            board.reset()
-            continue
-        else:
-            break
+        # Player X functionality
+        x_choice = int(raw_input("\n X) Please choose 1-9. > "))
+        board.update_cell(x_choice, "X")
+        refrash_screan()
+        if board.is_winner("X"):
+            print("\n Player X wins! \n")
+            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+            if play_again == "Y":
+                board.reset()
+                continue
+            else:
+                break
 
-    # Player O functionality
-    o_choice = int(raw_input("\n O) Please choose 1-9. > "))
-    board.update_cell(o_choice, "O")
-    refrash_screan()
-    if board.is_winner("O"):
-        print("\n Player O wins! \n")
-        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
-        if play_again == "Y":
-            board.reset()
-            continue
-        else:
-            break
+        if board.is_tie():
+            print("\n Game ends with tie! \n")
+            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+            if play_again == "Y":
+                board.reset()
+                continue
+            else:
+                break
 
-    if board.is_tie():
-        print("\n Game ends with tie! \n")
-        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
-        if play_again == "Y":
-            board.reset()
-            continue
-        else:
-            break
+        # Player O functionality
+        o_choice = int(raw_input("\n O) Please choose 1-9. > "))
+        board.update_cell(o_choice, "O")
+        refrash_screan()
+        if board.is_winner("O"):
+            print("\n Player O wins! \n")
+            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+            if play_again == "Y":
+                board.reset()
+                continue
+            else:
+                break
+
+        if board.is_tie():
+            print("\n Game ends with tie! \n")
+            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+            if play_again == "Y":
+                board.reset()
+                continue
+            else:
+                break
+else:
+    chose_player = raw_input("Would you like to play with X or O ? (X/O) > ").upper()
+    if chose_player == "X":
+        machine = "O"
+
+        while True:
+            refrash_screan()
+
+            # Player X functionality
+            x_choice = int(raw_input("\n X) Please choose 1-9. > "))
+            board.update_cell(x_choice, chose_player)
+            refrash_screan()
+            if board.is_winner(chose_player):
+                print("\n Player X wins! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+            if board.is_tie():
+                print("\n Game ends with tie! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+            # Ai Player functionality
+            board.ai_move(machine)
+            refrash_screan()
+            if board.is_winner(machine):
+                print("\n Player O wins! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+            if board.is_tie():
+                print("\n Game ends with tie! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+    else:
+        machine = "X"
+        while True:
+            refrash_screan()
+
+            # Ai Player functionality
+            board.ai_move(machine)
+            refrash_screan()
+            if board.is_winner(machine):
+                print("\n Player X wins! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+            if board.is_tie():
+                print("\n Game ends with tie! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+            # Player O functionality
+            x_choice = int(raw_input("\n O) Please choose 1-9. > "))
+            board.update_cell(x_choice, chose_player)
+            refrash_screan()
+            if board.is_winner(chose_player):
+                print("\n Player O wins! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
+
+            if board.is_tie():
+                print("\n Game ends with tie! \n")
+                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+                if play_again == "Y":
+                    board.reset()
+                    continue
+                else:
+                    break
