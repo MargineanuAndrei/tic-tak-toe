@@ -43,6 +43,16 @@ class Board():
 
         return False
 
+    def is_tie(self):
+        used_cells = 0
+        for cell in self.cells:
+            if cell != " ":
+                used_cells += 1
+        if used_cells == 9:
+            return True
+        else:
+            return False
+
     def reset(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
@@ -59,6 +69,7 @@ def refrash_screan():
 while True:
     refrash_screan()
 
+    # Player X functionality
     x_choice = int(raw_input("\n X) Please choose 1-9. > "))
     board.update_cell(x_choice, "X")
     refrash_screan()
@@ -71,11 +82,30 @@ while True:
         else:
             break
 
+    if board.is_tie():
+        print("\n Game ends with tie! \n")
+        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
+        if play_again == "Y":
+            board.reset()
+            continue
+        else:
+            break
+
+    # Player O functionality
     o_choice = int(raw_input("\n O) Please choose 1-9. > "))
     board.update_cell(o_choice, "O")
     refrash_screan()
     if board.is_winner("O"):
         print("\n Player O wins! \n")
+        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
+        if play_again == "Y":
+            board.reset()
+            continue
+        else:
+            break
+
+    if board.is_tie():
+        print("\n Game ends with tie! \n")
         play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
         if play_again == "Y":
             board.reset()
