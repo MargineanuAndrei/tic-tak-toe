@@ -16,6 +16,35 @@ class Board():
         if self.cells[cell_number] == " ":
             self.cells[cell_number] = player
 
+    def is_winner(self, player):
+        if(self.cells[1] == player and self.cells[2] == player and self.cells[3] == player):
+            return True
+
+        if(self.cells[4] == player and self.cells[5] == player and self.cells[6] == player):
+            return True
+
+        if(self.cells[7] == player and self.cells[8] == player and self.cells[9] == player):
+            return True
+
+        if(self.cells[1] == player and self.cells[4] == player and self.cells[7] == player):
+            return True
+
+        if(self.cells[2] == player and self.cells[5] == player and self.cells[8] == player):
+            return True
+
+        if(self.cells[3] == player and self.cells[6] == player and self.cells[9] == player):
+            return True
+
+        if(self.cells[1] == player and self.cells[5] == player and self.cells[9] == player):
+            return True
+
+        if(self.cells[3] == player and self.cells[5] == player and self.cells[7] == player):
+            return True
+
+        return False
+
+    def reset(self):
+        self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
 
 board = Board()
 
@@ -29,9 +58,27 @@ def refrash_screan():
 
 while True:
     refrash_screan()
+
     x_choice = int(raw_input("\n X) Please choose 1-9. > "))
     board.update_cell(x_choice, "X")
-
     refrash_screan()
+    if board.is_winner("X"):
+        print("\n Player X wins! \n")
+        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
+        if play_again == "Y":
+            board.reset()
+            continue
+        else:
+            break
+
     o_choice = int(raw_input("\n O) Please choose 1-9. > "))
     board.update_cell(o_choice, "O")
+    refrash_screan()
+    if board.is_winner("O"):
+        print("\n Player O wins! \n")
+        play_again = raw_input("Would you like to play again? (Y?N) > ").upper()
+        if play_again == "Y":
+            board.reset()
+            continue
+        else:
+            break
