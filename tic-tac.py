@@ -1,4 +1,5 @@
 import os
+import sys
 
 #Main game board class
 class Board():
@@ -70,6 +71,12 @@ def refrash_screan():
 
 two_players = raw_input("Would you like to play two players? (Y/N) > ").upper()
 
+if two_players != "Y" and two_players != "N":
+    two_players = raw_input("Please select Y or N ! > ").upper()
+
+if two_players != "Y" and two_players != "N":
+    sys.exit("\n Your chose isn't corect! Please run game again :) \n")
+
 if two_players == "Y":
     while True:
         refrash_screan()
@@ -119,6 +126,12 @@ if two_players == "Y":
                 break
 else:
     chose_player = raw_input("Would you like to play with X or O ? (X/O) > ").upper()
+    if chose_player != "X" and chose_player != "O":
+        chose_player = raw_input("Please select X or O ! > ").upper()
+
+    if chose_player != "X" and chose_player != "O":
+        sys.exit("\n Your chose isn't corect! Please run game again :) \n")
+
     if chose_player == "X":
         machine = "O"
 
