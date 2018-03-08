@@ -1,7 +1,7 @@
 import os
 import sys
 
-#Main game board class
+# Main game board class
 class Board():
     def __init__(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
@@ -36,7 +36,13 @@ class Board():
             if cell != " ":
                 used_cells += 1
         if used_cells == 9:
-            return True
+            print("\n Game ends with tie! \n")
+            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
+            if play_again == "Y":
+                board.reset()
+                return True
+            else:
+                sys.exit("\n Thank You For Game :) \n")
         else:
             return False
 
@@ -60,7 +66,9 @@ class Board():
                 break
 
 board = Board()
+# --------------
 
+# Global functions
 def print_header():
     print("Welcome to Tic Tac Toe Game \n")
 
@@ -68,7 +76,10 @@ def refrash_screan():
     os.system("clear")
     print_header()
     board.display()
+# --------------
 
+
+# Play with two players or machine
 two_players = raw_input("Would you like to play two players? (Y/N) > ").upper()
 
 if two_players != "Y" and two_players != "N":
@@ -76,6 +87,7 @@ if two_players != "Y" and two_players != "N":
 
 if two_players != "Y" and two_players != "N":
     sys.exit("\n Your chose isn't corect! Please run game again :) \n")
+# --------------
 
 if two_players == "Y":
     while True:
@@ -94,14 +106,9 @@ if two_players == "Y":
             else:
                 break
 
+        # Check if game is not ended with tie
         if board.is_tie():
-            print("\n Game ends with tie! \n")
-            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
-            if play_again == "Y":
-                board.reset()
-                continue
-            else:
-                break
+            continue
 
         # Player O functionality
         o_choice = int(raw_input("\n O) Please choose 1-9. > "))
@@ -116,14 +123,9 @@ if two_players == "Y":
             else:
                 break
 
+        # Check if game is not ended with tie
         if board.is_tie():
-            print("\n Game ends with tie! \n")
-            play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
-            if play_again == "Y":
-                board.reset()
-                continue
-            else:
-                break
+            continue
 else:
     chose_player = raw_input("Would you like to play with X or O ? (X/O) > ").upper()
     if chose_player != "X" and chose_player != "O":
@@ -151,14 +153,9 @@ else:
                 else:
                     break
 
+            # Check if game is not ended with tie
             if board.is_tie():
-                print("\n Game ends with tie! \n")
-                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
-                if play_again == "Y":
-                    board.reset()
-                    continue
-                else:
-                    break
+                continue
 
             # Ai Player functionality
             board.ai_move(machine)
@@ -172,14 +169,9 @@ else:
                 else:
                     break
 
+            # Check if game is not ended with tie
             if board.is_tie():
-                print("\n Game ends with tie! \n")
-                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
-                if play_again == "Y":
-                    board.reset()
-                    continue
-                else:
-                    break
+                continue
 
     else:
         machine = "X"
@@ -198,14 +190,9 @@ else:
                 else:
                     break
 
+            # Check if game is not ended with tie
             if board.is_tie():
-                print("\n Game ends with tie! \n")
-                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
-                if play_again == "Y":
-                    board.reset()
-                    continue
-                else:
-                    break
+                continue
 
             # Player O functionality
             x_choice = int(raw_input("\n O) Please choose 1-9. > "))
@@ -220,11 +207,6 @@ else:
                 else:
                     break
 
+            # Check if game is not ended with tie
             if board.is_tie():
-                print("\n Game ends with tie! \n")
-                play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
-                if play_again == "Y":
-                    board.reset()
-                    continue
-                else:
-                    break
+                continue
