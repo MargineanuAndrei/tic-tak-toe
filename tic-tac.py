@@ -26,13 +26,13 @@ class Board():
                     result = False
 
             if result == True:
-                print("\n Player " + player + " wins! \n")
+                print("\nPlayer " + player + " wins! \n")
                 play_again = raw_input("Would you like to play again? (Y/N) > ").upper()
                 if play_again == "Y":
                     board.reset()
                     return True
                 else:
-                    sys.exit("\n Thank You For Game :) \n")
+                    sys.exit("\nThank You For Game :) \n")
 
         return False
 
@@ -48,7 +48,7 @@ class Board():
                 board.reset()
                 return True
             else:
-                sys.exit("\n Thank You For Game :) \n")
+                sys.exit("\nThank You For Game :) \n")
         else:
             return False
 
@@ -84,19 +84,8 @@ def refrash_screan():
     board.display()
 # --------------
 
-
-# Play with two players or machine
-two_players = raw_input("Would you like to play a two players game? (Y/N) > ").upper()
-
-if two_players != "Y" and two_players != "N":
-    two_players = raw_input("Please select Y or N ! > ").upper()
-
-if two_players != "Y" and two_players != "N":
-    sys.exit("\n Your chose isn't corect! Please run game again :) \n")
-# --------------
-
-if two_players == "Y":
-    #  Two players functionality
+#  Two players functionality
+def two_players_game():
     while True:
         refrash_screan()
 
@@ -127,72 +116,96 @@ if two_players == "Y":
         # Check if game is not ended with tie
         if board.is_tie():
             continue
-    #-------------------------
+#-------------------------
+
+#  Players vs machine functionality
+def player_play_first():
+    machine = "O"
+
+    while True:
+        refrash_screan()
+
+        # Player X move
+        x_choice = int(raw_input("\n X) Please choose 1-9. > "))
+        board.update_cell(x_choice, chose_player)
+        refrash_screan()
+        #--------------
+
+        # Check if player win game
+        if board.is_winner(chose_player):
+            continue
+
+        # Check if game is not ended with tie
+        if board.is_tie():
+            continue
+
+        # Machine move
+        board.ai_move(machine)
+        refrash_screan()
+        #--------------
+
+        # Check if player win game
+        if board.is_winner(machine):
+            continue
+
+        # Check if game is not ended with tie
+        if board.is_tie():
+            continue
+
+def machine_play_first():
+    machine = "X"
+    while True:
+        refrash_screan()
+
+        # Ai Player functionality
+        board.ai_move(machine)
+        refrash_screan()
+
+        # Check if player win game
+        if board.is_winner(machine):
+            continue
+
+        # Check if game is not ended with tie
+        if board.is_tie():
+            continue
+
+        # Player O functionality
+        x_choice = int(raw_input("\n O) Please choose 1-9. > "))
+        board.update_cell(x_choice, chose_player)
+        refrash_screan()
+
+        # Check if player win game
+        if board.is_winner(chose_player):
+            continue
+
+        # Check if game is not ended with tie
+        if board.is_tie():
+            continue
+
+#-------------------------
+
+# Play with two players or machine also check input value if it is Y or N
+two_players = raw_input("Would you like to play a two players game? (Y/N) > ").upper()
+if two_players != "Y" and two_players != "N":
+    two_players = raw_input("Please select Y or N ! > ").upper()
+if two_players != "Y" and two_players != "N":
+    sys.exit("\n Your chose isn't corect! Please run game again :) \n")
+# --------------
+
+# Main game decisions functionality
+if two_players == "Y":
+    two_players_game()
 else:
+    # Chech input value if it is X or O
     chose_player = raw_input("Would you like to play with X or O ? (X/O) > ").upper()
     if chose_player != "X" and chose_player != "O":
         chose_player = raw_input("Please select X or O ! > ").upper()
-
     if chose_player != "X" and chose_player != "O":
         sys.exit("\n Your chose isn't corect! Please run game again :) \n")
+    #--------------
 
     if chose_player == "X":
-        machine = "O"
-
-        while True:
-            refrash_screan()
-
-            # Player X functionality
-            x_choice = int(raw_input("\n X) Please choose 1-9. > "))
-            board.update_cell(x_choice, chose_player)
-            refrash_screan()
-
-            # Check if player win game
-            if board.is_winner(chose_player):
-                continue
-
-            # Check if game is not ended with tie
-            if board.is_tie():
-                continue
-
-            # Ai Player functionality
-            board.ai_move(machine)
-            refrash_screan()
-
-            # Check if player win game
-            if board.is_winner(machine):
-                continue
-
-            # Check if game is not ended with tie
-            if board.is_tie():
-                continue
-
+        player_play_first()
     else:
-        machine = "X"
-        while True:
-            refrash_screan()
-
-            # Ai Player functionality
-            board.ai_move(machine)
-            refrash_screan()
-
-            # Check if player win game
-            if board.is_winner(machine):
-                continue
-
-            # Check if game is not ended with tie
-            if board.is_tie():
-                continue
-
-            # Player O functionality
-            x_choice = int(raw_input("\n O) Please choose 1-9. > "))
-            board.update_cell(x_choice, chose_player)
-            refrash_screan()
-
-            # Check if player win game
-            if board.is_winner(chose_player):
-                continue
-
-            # Check if game is not ended with tie
-            if board.is_tie():
-                continue
+        machine_play_first()
+#-------------------------
